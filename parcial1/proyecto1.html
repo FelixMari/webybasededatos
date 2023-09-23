@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cj Chrome</title>
+    <title>juego</title>
     <style>
 
 * {
@@ -14,6 +14,7 @@
 
 body{
     height: 100vh;
+    background: #584040;
     display: flex;
     align-items: center;
 }
@@ -42,25 +43,21 @@ body{
     background-color: #aca8c7;
 }
 
-.cj {
-    width: 101px;
-    height: 290px;
+.jugador {
+    width: 59px;
+    height: 56px;
 
     position: absolute;
     bottom: 22px;
     left: 42px;
     z-index: 2;
 
-    background: url(imagenes/cj.png) repeat-x 0px 0px;
-   
+    background: url(imagenes/jugador.png) repeat-x 0px 0px;
+    background-size: 59 56px;
     background-position-x: 0px;
 
 }
 
-
-.cj-estrellado {
-    background-position-x: -252px;
-}
 
 .suelo {
     width: 200%;
@@ -70,27 +67,27 @@ body{
     bottom: 0;
     left: 0;
 
-    background: url(imagenes/suelo.png) repeat-x 0px 0px;
+    background: url(imagenes//suelo.png) repeat-x 0px 0px;
     background-size: 50% 42px;
 
 }
 
-.enemigo{
-    width: 59px;
-    height: 56px;
+.cactus{
+    width: 46px;
+    height: 96px;
 
     position: absolute;
     bottom: 16px;
     left: 600px;
     z-index: 1;
 
-    background: url(imagenes/enemigo1.png) no-repeat;
+    background: url(imagenes//cactus1.png) no-repeat;
 }
-.cactus2{
-    width: 98px;
-    height: 66px;
+.pinchos1{
+    width: 120px;
+    height: 100px;
 
-    background: url(imagenes/cactus2.png) no-repeat;
+    background: url(imagenes//pinchos1.png) no-repeat;
 }
 
 .nube{
@@ -100,7 +97,7 @@ body{
     position: absolute;
     z-index: 0;
 
-    background: url(imagenes/nube.png) no-repeat;
+    background: url(imagenes//nube.png) no-repeat;
     background-size: 92px 26px;
 }
 
@@ -134,14 +131,7 @@ body{
     font-weight: 700;
 }
 
-@keyframes animarcj{
-    from{
-        background-position-x: -84px;
-    }
-    to{
-        background-position-x: -252px;
-    }
-}
+
 
 
     </style>
@@ -152,7 +142,7 @@ body{
 
         <div class="suelo"></div>
         
-        <div class="cj cj-corriendo"></div>
+        <div class="jugador jugador-corriendo"></div>
 
         <div class="score">0</div>
 
@@ -191,11 +181,11 @@ function Loop() {
 
 var sueloY = 22;
 var velY = 0;
-var impulso = 1200;
-var gravedad = 2200;
+var impulso = 1000;
+var gravedad = 2500;
 
-var cjPosX = 42;
-var cjPosY = sueloY; 
+var jugadorPosX = 42;
+var jugadorPosY = sueloY; 
 
 var sueloX = 0;
 var velEscenario = 1280/3;
@@ -220,7 +210,7 @@ var nubes = [];
 var velNube = 0.5;
 
 var contenedor;
-var cj;
+var jugador;
 var textoScore;
 var suelo;
 var gameOver;
@@ -230,14 +220,14 @@ function Start() {
     suelo = document.querySelector(".suelo");
     contenedor = document.querySelector(".contenedor");
     textoScore = document.querySelector(".score");
-    cj = document.querySelector(".cj");
+    jugador = document.querySelector(".jugador");
     document.addEventListener("keydown", HandleKeyDown);
 }
 
 function Update() {
     if(parado) return;
     
-    Movercj();
+    Moverjugador();
     MoverSuelo();
     DecidirCrearObstaculos();
     DecidirCrearNubes();
@@ -255,27 +245,27 @@ function HandleKeyDown(ev){
 }
 
 function Saltar(){
-    if(cjPosY === sueloY){
+    if(jugadorPosY === sueloY){
         saltando = true;
         velY = impulso;
-        cj.classList.remove("cj-corriendo");
+        jugador.classList.remove("jugador-corriendo");
     }
 }
 
-function Movercj() {
-    cjPosY += velY * deltaTime;
-    if(cjPosY < sueloY){
+function Moverjugador() {
+    jugadorPosY += velY * deltaTime;
+    if(jugadorPosY < sueloY){
         
         TocarSuelo();
     }
-    cj.style.bottom = cjPosY+"px";
+    jugador.style.bottom = jugadorPosY+"px";
 }
 
 function TocarSuelo() {
-    cjPosY = sueloY;
+    jugadorPosY = sueloY;
     velY = 0;
     if(saltando){
-        cj.classList.add("cj-corriendo");
+        jugador.classList.add("jugador-corriendo");
     }
     saltando = false;
 }
@@ -290,8 +280,8 @@ function CalcularDesplazamiento() {
 }
 
 function Estrellarse() {
-    cj.classList.remove("cj-corriendo");
-    cj.classList.add("cj-estrellado");
+    jugador.classList.remove("jugador-corriendo");
+    jugador.classList.add("jugador-estrellado");
     parado = true;
 }
 
@@ -312,8 +302,8 @@ function DecidirCrearNubes() {
 function CrearObstaculo() {
     var obstaculo = document.createElement("div");
     contenedor.appendChild(obstaculo);
-    obstaculo.classList.add("enemigo");
-    if(Math.random() > 0.5) obstaculo.classList.add("cactus2");
+    obstaculo.classList.add("cactus");
+    if(Math.random() > 0.5) obstaculo.classList.add("pinchos1");
     obstaculo.posX = contenedor.clientWidth;
     obstaculo.style.left = contenedor.clientWidth+"px";
 
@@ -362,16 +352,16 @@ function GanarPuntos() {
     score++;
     textoScore.innerText = score;
     if(score == 5){
-        gameVel = 1.5;
+        gameVel = 1.15;
         contenedor.classList.add("mediodia");
     }else if(score == 10) {
-        gameVel = 2;
+        gameVel = 1.30;
         contenedor.classList.add("tarde");
     } else if(score == 20) {
-        gameVel = 3;
+        gameVel = 1.55;
         contenedor.classList.add("noche");
     }
-    suelo.style.animationDuration = (3/gameVel)+"s";
+    suelo.style.animationDuration = (1.55/gameVel)+"s";
 }
 
 function GameOver() {
@@ -381,11 +371,11 @@ function GameOver() {
 
 function DetectarColision() {
     for (var i = 0; i < obstaculos.length; i++) {
-        if(obstaculos[i].posX > cjPosX + cj.clientWidth) {
+        if(obstaculos[i].posX > jugadorPosX + jugador.clientWidth) {
             //EVADE
             break; //al estar en orden, no puede chocar con más
         }else{
-            if(IsCollision(cj, obstaculos[i], 10, 30, 15, 20)) {
+            if(IsCollision(jugador, obstaculos[i], 10, 30, 15, 20)) {
                 GameOver();
             }
         }
