@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,7 +28,7 @@ body{
 
     background: linear-gradient(#b7d6c7, transparent) #ffe2d1;/*linear-gradient(#90ebff, white);*/
     transition: background-color 1s linear;
-    overflow: hidden;
+    overflow: hidden; /* no se repitan los objetos fuera del contenedor */
 }
 
 .mediodia {
@@ -63,7 +63,7 @@ body{
     width: 200%;
     height: 42px;
 
-    position: absolute;
+    position: absolute; /* pantalla completa, moverse */
     bottom: 0;
     left: 0;
 
@@ -79,7 +79,7 @@ body{
     position: absolute;
     bottom: 16px;
     left: 600px;
-    z-index: 1;
+    z-index: 1; /* no se sobrepongan elementos */
 
     background: url(imagenes//cactus1.png) no-repeat;
 }
@@ -153,10 +153,8 @@ body{
 
 <script>
 
-//****** GAME LOOP ********//
-
 var time = new Date();
-var deltaTime = 0;
+var deltaTime = 0; //calcular el tiempo entre un fotograma y otro
 
 if(document.readyState === "complete" || document.readyState === "interactive"){
     setTimeout(Init, 1);
@@ -164,7 +162,7 @@ if(document.readyState === "complete" || document.readyState === "interactive"){
     document.addEventListener("DOMContentLoaded", Init); 
 }
 
-function Init() {
+function Init() { /*cargar imagenes */
     time = new Date();
     Start();
     Loop();
@@ -177,7 +175,7 @@ function Loop() {
     requestAnimationFrame(Loop);
 }
 
-//****** GAME LOGIC ********//
+/* logica */
 
 var sueloY = 22;
 var velY = 0;
@@ -194,12 +192,13 @@ var score = 0;
 
 var parado = false;
 var saltando = false;
-
+ 
+//cada cuanto se crean obstaculos
 var tiempoHastaObstaculo = 2;
 var tiempoObstaculoMin = 0.7;
 var tiempoObstaculoMax = 1.8;
 var obstaculoPosY = 16;
-var obstaculos = [];
+var obstaculos = []; // obstaculos al azar
 
 var tiempoHastaNube = 0.5;
 var tiempoNubeMin = 0.7;
@@ -215,7 +214,7 @@ var textoScore;
 var suelo;
 var gameOver;
 
-function Start() {
+function Start() { //empezar el juego
     gameOver = document.querySelector(".game-over");
     suelo = document.querySelector(".suelo");
     contenedor = document.querySelector(".contenedor");
@@ -235,10 +234,10 @@ function Update() {
     MoverNubes();
     DetectarColision();
 
-    velY -= gravedad * deltaTime;
+    velY -= gravedad * deltaTime; //evita que jugador salga de pantalla
 }
 
-function HandleKeyDown(ev){
+function HandleKeyDown(ev){ //llamar una tecla
     if(ev.keyCode == 32){
         Saltar();
     }
@@ -248,7 +247,6 @@ function Saltar(){
     if(jugadorPosY === sueloY){
         saltando = true;
         velY = impulso;
-        jugador.classList.remove("jugador-corriendo");
     }
 }
 
@@ -264,15 +262,12 @@ function Moverjugador() {
 function TocarSuelo() {
     jugadorPosY = sueloY;
     velY = 0;
-    if(saltando){
-        jugador.classList.add("jugador-corriendo");
-    }
     saltando = false;
 }
 
 function MoverSuelo() {
     sueloX += CalcularDesplazamiento();
-    suelo.style.left = -(sueloX % contenedor.clientWidth) + "px";
+    suelo.style.left = -(sueloX % contenedor.clientWidth) + "px"; //repinta el suelo
 }
 
 function CalcularDesplazamiento() {
@@ -280,12 +275,10 @@ function CalcularDesplazamiento() {
 }
 
 function Estrellarse() {
-    jugador.classList.remove("jugador-corriendo");
-    jugador.classList.add("jugador-estrellado");
     parado = true;
 }
 
-function DecidirCrearObstaculos() {
+function DecidirCrearObstaculos() { //crea obstaculos cada tiempo deseado (linea 197)
     tiempoHastaObstaculo -= deltaTime;
     if(tiempoHastaObstaculo <= 0) {
         CrearObstaculo();
@@ -324,12 +317,12 @@ function CrearNube() {
 }
 
 function MoverObstaculos() {
-    for (var i = obstaculos.length - 1; i >= 0; i--) {
+    for (var i = obstaculos.length - 1; i >= 0; i--) { //mover obstaculo uno por uno
         if(obstaculos[i].posX < -obstaculos[i].clientWidth) {
             obstaculos[i].parentNode.removeChild(obstaculos[i]);
             obstaculos.splice(i, 1);
             GanarPuntos();
-        }else{
+        }else{ //determina si el obstaculo salio de la pantalla
             obstaculos[i].posX -= CalcularDesplazamiento();
             obstaculos[i].style.left = obstaculos[i].posX+"px";
         }
@@ -361,7 +354,6 @@ function GanarPuntos() {
         gameVel = 1.55;
         contenedor.classList.add("noche");
     }
-    suelo.style.animationDuration = (1.55/gameVel)+"s";
 }
 
 function GameOver() {
@@ -372,8 +364,7 @@ function GameOver() {
 function DetectarColision() {
     for (var i = 0; i < obstaculos.length; i++) {
         if(obstaculos[i].posX > jugadorPosX + jugador.clientWidth) {
-            //EVADE
-            break; //al estar en orden, no puede chocar con más
+            break; //al estar en orden, no puede chocar con mas
         }else{
             if(IsCollision(jugador, obstaculos[i], 10, 30, 15, 20)) {
                 GameOver();
@@ -386,7 +377,7 @@ function IsCollision(a, b, paddingTop, paddingRight, paddingBottom, paddingLeft)
     var aRect = a.getBoundingClientRect();
     var bRect = b.getBoundingClientRect();
 
-    return !(
+    return !( //detectar coordenadas de colision
         ((aRect.top + aRect.height - paddingBottom) < (bRect.top)) ||
         (aRect.top + paddingTop > (bRect.top + bRect.height)) ||
         ((aRect.left + aRect.width - paddingRight) < bRect.left) ||
