@@ -1,12 +1,12 @@
 <?php
 include 'conexion.php';
 
-$nombre = $POST["nombre"];
-$numero_control = $POST["nc"];
-$semestre = $POST["semestre"];
-$edad = $POST["edad"];
-$turno = $POST["turn"];
-$sexo = $POST["sexo"];
+$nombre = $_POST["nombre"];
+$numero_control = $_POST["nc"];
+$semestre = $_POST["semestre"];
+$edad = $_POST["edad"];
+$turno = $_POST["turno"];
+$sexo = $_POST["sexo"];
 
 $sql = "INSERT INTO alumnos(nombre, numero_control, semestre, edad, turno, sexo)";
 $SQL += "VALUES('".$nombre."','".numero_control."',".semestre.",".edad.",'".turno."',".sexo.")";
