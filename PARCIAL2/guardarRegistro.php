@@ -8,8 +8,7 @@ $edad = $_POST["edad"];
 $turno = $_POST["turno"];
 $sexo = $_POST["sexo"];
 
-$sql = "INSERT INTO alumnos(nombre, numero_control, semestre, edad, turno, sexo)";
-$SQL += "VALUES('".$nombre."','".numero_control."',".semestre.",".edad.",'".turno."',".sexo.")";
+$sql = "INSERT INTO alumnos(nombre, numero_control, semestre, edad, turno, sexo) VALUES('".$nombre."','".numero_control."',".semestre.",".edad.",'".turno."',".sexo.")";
 
 if($conexion->query($sql) === TRUE){
     header("Location: consultarAlumnos.php");
