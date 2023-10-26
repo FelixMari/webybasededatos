@@ -14,7 +14,7 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="inicio.php">Inicio</a></li>
-            <li><a class="dropdown-item" href="#">Registra alumnos</a></li>
+            <li><a class="dropdown-item" href="RegistrarAlumnos.php">Registrar alumnos</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="consutaAlumnos.php">Consulta alumnos</a></li>
           </ul>

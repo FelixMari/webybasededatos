@@ -19,6 +19,6 @@
         </div>
     </div>
 <footer class="text-center"><hr>Cetis 107 web app &copy; 2023</footer>
-<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.bundle.js"></script>
 </body>
 </html>
