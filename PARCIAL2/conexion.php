@@ -1,8 +1,8 @@
 <?php
-$server = "localhost:3306";
+$server = "localhost";
 $user = "root";
-$password = "root";
-$basededatos = "alumnos.sql";
+$password = "";
+$basededatos = "alumnos";
 
 $conexion = new mysqli($server, $user, $password, $basededatos);
 
