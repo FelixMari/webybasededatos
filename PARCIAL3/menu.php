@@ -29,6 +29,7 @@
             <li><a class="dropdown-item" href="consultarMaterias.php">Consultar materias</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="RegistrarMateria.php">Registar materia</a></li>
+            <li><a class="dropdown-item" href="asignarMateria.php">Asignar materia</a></li>
           </ul>
         </li>
       </ul>

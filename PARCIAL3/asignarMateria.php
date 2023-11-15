@@ -19,7 +19,7 @@ $datos_materias = $conexion->query($sql_materias);
         <div class="row">
             <div class="col-12 card p-4 m-2">
                 <h2>Asignar materias a alumnos</h2><br>
-                <form action="">
+                <form action="guardarAsignacion.php" method="POST">
                     <label for="">Alumno:</label>
                     <select name="alumno" class="form-control">
                         <option value="">Selecciona un alumno</option>
